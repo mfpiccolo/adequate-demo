@@ -1,0 +1,36 @@
+<h1>Editing invoice</h1>
+
+<%= render 'form' %>
+
+<table id="line-item-table">
+  <tbody data-append="line-item">
+    <tr>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <%= template(collection: @line_items) do %>
+      <tr>
+        <td><%= text_field_tag_for(:line_item, :description) %></td>
+        <td><%= text_field_tag_for(:line_item, :qty) %></td>
+        <td><%= text_field_tag_for(:line_item, :price_cents) %></td>
+        <td><%= link_to "Save", "#", class: "persist",
+          data: { adq_uuid: "", invoice_id: @invoice.id } %>
+        </td>
+        <td><%= link_to "Delete", "#", class: "delete",
+          data: { id: "" } %>
+        </td>
+      </tr>
+    <% end %>
+
+    <%= link_to 'New Line Item', "#", id: "new-line-item",
+      data: { adq_uuid: "", invoice_id: @invoice.id } %>
+  </tbody>
+</table>
+
+<%= link_to 'Show', @invoice %> |
+<%= link_to 'Back', invoices_path %>
+

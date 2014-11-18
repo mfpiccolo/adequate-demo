@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2014-11-14
+  subtotal_cents: 1
+  shipping_cents: 1
+  tax_cents: 1
+  total_cents: 1
+  amount_due: 1
+
+two:
+  date: 2014-11-14
+  subtotal_cents: 1
+  shipping_cents: 1
+  tax_cents: 1
+  total_cents: 1
+  amount_due: 1

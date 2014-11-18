@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @invoice.date %>
+</p>
+
+<p>
+  <strong>Subtotal cents:</strong>
+  <%= @invoice.subtotal_cents %>
+</p>
+
+<p>
+  <strong>Shipping cents:</strong>
+  <%= @invoice.shipping_cents %>
+</p>
+
+<p>
+  <strong>Tax cents:</strong>
+  <%= @invoice.tax_cents %>
+</p>
+
+<p>
+  <strong>Total cents:</strong>
+  <%= @invoice.total_cents %>
+</p>
+
+<p>
+  <strong>Amount due:</strong>
+  <%= @invoice.amount_due %>
+</p>
+
+<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
+<%= link_to 'Back', invoices_path %>

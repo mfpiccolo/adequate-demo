@@ -13,4 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require kindred
+//= require models/line_item
+//= require controllers/invoices_controller
+//= require listeners/invoice_listeners
+
+

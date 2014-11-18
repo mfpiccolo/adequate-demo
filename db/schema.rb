@@ -11,15 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141114182114) do
+ActiveRecord::Schema.define(version: 20141114183141) do
 
   create_table "invoices", force: true do |t|
-    t.integer  "total_cents"
+    t.binary   "uuid",           limit: 16
     t.date     "date"
+    t.integer  "subtotal_cents"
     t.integer  "shipping_cents"
     t.integer  "tax_cents"
-    t.integer  "subtotal_cents"
+    t.integer  "total_cents"
     t.integer  "amount_due"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "line_items", force: true do |t|
+    t.binary   "uuid",        limit: 16
+    t.integer  "invoice_id"
+    t.text     "description"
+    t.integer  "qty"
+    t.integer  "price_cents"
+    t.integer  "total_cents"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
