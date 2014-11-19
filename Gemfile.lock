@@ -1,5 +1,6 @@
-PATH
-  remote: ~/code/mfpiccolo/kindred
+GIT
+  remote: git://github.com/mfpiccolo/kindred.git
+  revision: c41502a956536db4164385fd975113bf6766f26c
   specs:
     kindred (0.0.1)
 
