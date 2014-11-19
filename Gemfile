@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem "happy_place"
-gem "kindred", path: "~/code/mfpiccolo/kindred"
+gem "kindred", github: "mfpiccolo/kindred"
 
 group :development do
   gem "pry-byebug"
