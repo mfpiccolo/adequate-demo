@@ -1,3 +1,14 @@
 // Place all the styles related to the line_items controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.error {
+  display: block;
+  margin-top: -1px;
+  font-size: 0.66667rem;
+  font-weight: normal;
+  font-style: italic;
+  padding: .1em;
+  padding-left: .6em;
+  background: #f04124;
+  color: white;
+}

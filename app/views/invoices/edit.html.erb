@@ -2,6 +2,9 @@
 
 <%= render 'form' %>
 
+<%= link_to 'New Line Item', "#", id: "new-line-item",
+  data: { adq_uuid: "", invoice_id: @invoice.id } %>
+
 <table id="line-item-table">
   <tbody data-append="line-item">
     <tr>
@@ -18,16 +21,20 @@
         <td><%= text_field_tag_for(:line_item, :qty) %></td>
         <td><%= text_field_tag_for(:line_item, :price_cents) %></td>
         <td><%= link_to "Save", "#", class: "persist",
-          data: { adq_uuid: "", invoice_id: @invoice.id } %>
+          data: { k_uuid: "", invoice_id: @invoice.id } %>
         </td>
         <td><%= link_to "Delete", "#", class: "delete",
           data: { id: "" } %>
         </td>
       </tr>
+      <tr>
+        <td><%= error_for(:line_item, :description) %></td>
+        <td><%= error_for(:line_item, :qty) %></td>
+        <td><%= error_for(:line_item, :price_cents) %></td>
+        <td></td>
+        <td></td>
+      </tr>
     <% end %>
-
-    <%= link_to 'New Line Item', "#", id: "new-line-item",
-      data: { adq_uuid: "", invoice_id: @invoice.id } %>
   </tbody>
 </table>
 
