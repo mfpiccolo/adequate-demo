@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mfpiccolo/kindred.git
-  revision: c41502a956536db4164385fd975113bf6766f26c
+  revision: 82848df73d0067422f6063dbf850b882e9f5dfc5
   specs:
     kindred (0.0.1)
 
