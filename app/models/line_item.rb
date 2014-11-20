@@ -3,7 +3,9 @@ class LineItem < ActiveRecord::Base
   before_validation :calculate
   after_initialize :finalize
 
-  validates :qty, presence: true
+  validates :qty, presence: true, numericality: true
+  validates :description, presence: true
+  validates :price_cents, format: { :with => /\A\d+(?:\.\d{0,2})?\z/ }, numericality: {greater_than: 0, less_than: 1000000}
 
   def calculate
     self.total_cents = qty.to_i * price_cents.to_i
