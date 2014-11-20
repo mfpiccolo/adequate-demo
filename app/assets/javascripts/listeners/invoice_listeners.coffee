@@ -1,17 +1,16 @@
 class App.InvoiceListeners
 
   @set: ->
-    $(document).on "click", ".persist", (evt) ->
-      li = new App.LineItem({uuid: $(@).data("adq-uuid")})
+    $("#line-item-table").on "click", ".persist", (evt) ->
+      li = new App.LineItem({uuid: $(@).data("k-uuid")})
       li.assign_attributes_from_page()
       li.set("invoice_id", $(@).data("invoice-id"))
-      response = li.save()
-      console.log response
+      li.save()
 
-    $(document).on "click", ".delete", (evt) ->
+    $("#line-item-table").on "click", ".delete", (evt) ->
       li = new App.LineItem({id: $(@).data("id")})
       li.destroy()
       $(@).parent().parent().remove()
 
-    $(document).on "click", "#new-line-item", (evt) ->
+    $("#new-line-item").click (evt) ->
       new App.LineItem($(@).data()).append_to_page()
