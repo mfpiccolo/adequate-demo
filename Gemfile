@@ -28,6 +28,7 @@ gem 'spring',        group: :development
 
 gem "happy_place"
 gem "kindred", github: "mfpiccolo/kindred"
+gem "font-awesome-rails"
 
 group :development do
   gem "pry-byebug"
