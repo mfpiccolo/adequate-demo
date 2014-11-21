@@ -20,6 +20,7 @@
         <td><%= text_field_tag_for(:line_item, :description) %></td>
         <td><%= text_field_tag_for(:line_item, :qty) %></td>
         <td><%= text_field_tag_for(:line_item, :price_cents) %></td>
+        <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 1x", style: "color:green" %></i></div></td>
         <td><%= link_to "Save", "#", class: "persist",
           data: { k_uuid: "", invoice_id: @invoice.id } %>
         </td>
@@ -31,6 +32,7 @@
         <td><%= error_for(:line_item, :description) %></td>
         <td><%= error_for(:line_item, :qty) %></td>
         <td><%= error_for(:line_item, :price_cents) %></td>
+        <td></td>
         <td></td>
         <td></td>
       </tr>
