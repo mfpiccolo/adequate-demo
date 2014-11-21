@@ -6,6 +6,7 @@ class App.InvoiceListeners
       li.assign_attributes_from_page()
       li.set("invoice_id", $(@).data("invoice-id"))
       li.save()
+      li.mark_dirty_or_clean()
 
     $("#line-item-table").on "click", ".delete", (evt) ->
       li = new App.LineItem({id: $(@).data("id")})
@@ -13,4 +14,14 @@ class App.InvoiceListeners
       $(@).parent().parent().remove()
 
     $("#new-line-item").click (evt) ->
-      new App.LineItem($(@).data()).append_to_page()
+      li = new App.LineItem($(@).data())
+      li.append_to_page()
+      li.mark_dirty_or_clean()
+
+    $("#line-item-table").on "keyup", "input[data-k-uuid]", (evt) ->
+      uuid = $(@).data("k-uuid")
+      li = new App.LineItem({uuid: uuid})
+      li.assign_attributes_from_page()
+      li.mark_dirty_or_clean()
+
+
