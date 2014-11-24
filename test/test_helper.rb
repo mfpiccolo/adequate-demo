@@ -1,10 +1,31 @@
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+ENV["RAILS_ENV"] = "test"
+require File.expand_path("../../config/environment", __FILE__)
+require "minitest/spec"
+require "rails/test_help"
+require "minitest/pride"
+require "minitest/autorun"
+require 'capybara/rails'
+require 'capybara/dsl'
 
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[File.join("./test/support/**/*.rb")].sort.each { |f| require f }
 
-  # Add more helper methods to be used by all tests here...
+Capybara.javascript_driver = :webkit
+
+Capybara.current_driver = Capybara.javascript_driver
+
+class IntegrationHelper < MiniTest::Spec
+  include Capybara::DSL
+
+  before(:suite) do
+    %x[bundle exec rake assets:precompile]
+  end
+
+  after do
+    DatabaseCleaner.clean
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+  end
 end
+MiniTest::Spec.register_spec_type( /Integration$/, IntegrationHelper )
