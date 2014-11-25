@@ -1,10 +1,10 @@
 require "test_helper"
 
-describe "Kindred Integration", type: :feature, js: true do
-  before :each do
+describe "Line Item Kindred Integration", type: :feature, js: true do
+
+  before do
     @invoice = Invoice.create
   end
-
   # adds new line item fills out fields, saves and checks errors and dirty state allong the way
   it "New Line Item" do
     visit "/invoices/#{@invoice.id}/edit"
@@ -39,5 +39,35 @@ describe "Kindred Integration", type: :feature, js: true do
     find(".persist").click
     page.all(".error").count.must_equal(0)
     find("i")["style"].must_equal("color:green;")
+  end
+
+  describe "delete" do
+    before do
+      @line_item = FactoryGirl.create(:line_item, invoice_id: @invoice.id)
+    end
+
+    it "deletes the line item" do
+      visit "/invoices/#{@invoice.id}/edit"
+      @invoice.line_items.count.must_equal 1
+      page.find("#line-item-table").must_have_content "Save"
+      find(".delete").click
+      @invoice.line_items.count.must_equal 0
+      page.find("#line-item-table").wont_have_content "Save"
+    end
+  end
+
+  describe "persist line item" do
+
+    it "saves a line item" do
+      visit "/invoices/#{@invoice.id}/edit"
+      page.find("#line-item-table").wont_have_content "Save"
+      click_link 'New Line Item'
+      find("input[data-attr='description']").set("Some Description")
+      find("input[data-attr='qty']").set("12")
+      find("input[data-attr='price_cents']").set("13")
+      find(".persist").click
+      visit "/invoices/#{@invoice.id}/edit"
+      page.find("#line-item-table").must_have_content "Save"
+    end
   end
 end
