@@ -5,6 +5,8 @@
 <%= link_to 'New Line Item', "#", id: "new-line-item",
   data: { adq_uuid: "", invoice_id: @invoice.id } %>
 
+<%= link_to "Save All", "#", id: "line-items-save-all" %>
+
 <table id="line-item-table">
   <tbody data-append="line-item">
     <tr>

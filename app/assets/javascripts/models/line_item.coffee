@@ -1,23 +1,19 @@
 class App.LineItem extends App.Base
 
-  #override for animation
-  # handle_errors: (errors_obj, uuid) ->
-  #   if @error?
-  #     hideable_error_inputs = $(Object.keys(@attributes)).not(Object.keys(errors_obj)).get()
-  #     $.each hideable_error_inputs, (i, attr) =>
-  #       $("[data-error][data-attr='" + attr + "'][data-k-uuid='" + @uuid + "']").slideUp(100)
+  @route = "/line_items"
 
-  #     $.each errors_obj, (attr, messages) =>
-  #       error_tag = $("[data-error][data-attr='" + attr + "'][data-k-uuid='" + @uuid + "']")
-  #       error_tag.html("")
-
-  #       $.each messages, (i, message) ->
-  #         error_tag.append("<span'>" + message + "</span><br>")
-
-  #       error_tag.slideDown(100)
-  #   else
-  #     $.each @attributes, (attr, val) =>
-  #       $("[data-error][data-attr='" + attr + "'][data-k-uuid='" + @uuid + "']").slideUp(100)
+  @save_all: =>
+    $.ajax
+      type: "PATCH"
+      url: @route + "/save_all"
+      data:
+        line_items: @collection_from_page("line_item")
+      success: (data, textStatus, xhr) ->
+        console.log data
+        console.log textStatus
+        console.log xhr
+      error: (xhr) ->
+        data = JSON.parse(xhr.responseText)
 
   mark_dirty_or_clean: =>
     if !@id?

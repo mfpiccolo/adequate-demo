@@ -61,6 +61,25 @@ class LineItemsController < ApplicationController
     end
   end
 
+  def save_all
+    response = []
+
+    params[:line_items].values.each do |attrs|
+      uuid = attrs["uuid"]
+      line_item = LineItem.find_or_initialize_by(uuid: uuid)
+      line_item.update_attributes(attrs)
+
+      response << {
+        line_item: line_item.attributes,
+        errors: line_item.errors
+      }
+    end
+
+    status = response.map { |i| i[:errors] }.any?(&:present?) ? 422 : 200
+
+    render json: response, status: status
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_line_item

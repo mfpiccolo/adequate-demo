@@ -24,4 +24,5 @@ class App.InvoiceListeners
       li.assign_attributes_from_page()
       li.mark_dirty_or_clean()
 
-
+    $("#line-items-save-all").click (evt) ->
+      App.LineItem.save_all()
