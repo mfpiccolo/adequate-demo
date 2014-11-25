@@ -36,6 +36,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'guard', '2.8.2'
   gem 'guard-konacha'
   gem "capybara"
   gem 'capybara_minitest_spec'
