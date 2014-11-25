@@ -12,7 +12,6 @@ require 'capybara/dsl'
 Dir[File.join("./test/support/**/*.rb")].sort.each { |f| require f }
 
 Capybara.javascript_driver = :webkit
-
 Capybara.current_driver = Capybara.javascript_driver
 
 class IntegrationHelper < MiniTest::Spec
@@ -25,7 +24,6 @@ class IntegrationHelper < MiniTest::Spec
   after do
     DatabaseCleaner.clean
     Capybara.reset_sessions!
-    Capybara.use_default_driver
   end
 end
 MiniTest::Spec.register_spec_type( /Integration$/, IntegrationHelper )
