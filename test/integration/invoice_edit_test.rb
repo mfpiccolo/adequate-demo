@@ -11,7 +11,6 @@ describe "Line Item Kindred Integration", type: :feature, js: true do
     page.must_have_content "Editing invoice"
     click_link 'New Line Item'
     page.must_have_content "Save"
-    find(".persist")
     find(".persist").click
     page.must_have_content "can't be blank"
     find("input[data-attr='description']").set("Some Description")
