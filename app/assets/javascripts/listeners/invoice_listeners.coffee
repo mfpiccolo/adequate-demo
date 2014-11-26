@@ -25,4 +25,7 @@ class App.InvoiceListeners
       li.mark_dirty_or_clean()
 
     $("#line-items-save-all").click (evt) ->
-      App.LineItem.save_all()
+      App.LineItem.save_all({
+        add_data_to_each: =>
+          {invoice_id: $(@).data("invoice-id")}
+      })

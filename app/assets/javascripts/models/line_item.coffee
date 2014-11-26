@@ -3,10 +3,16 @@ class App.LineItem extends App.Base
   @route = "/line_items"
   @set_class_name_variables("LineItem")
 
-  @save_all: =>
+  @save_all: (opts) =>
     data = {}
     # TODO fix the naive inflection
-    data[@snake_name + "s"] = @collection_from_page(@snake_name)
+    collection = @collection_from_page(@snake_name)
+    added_attrs = []
+    $.each collection, (i, attrs) ->
+      added_attrs.push($.extend attrs, opts.add_data_to_each())
+
+    data[@snake_name + "s"] = added_attrs
+
     $.ajax
       type: "PATCH"
       url: @route + "/save_all"
@@ -27,7 +33,6 @@ class App.LineItem extends App.Base
             uuid = response_object[@snake_name].uuid
             model = new App[@class_name](response_object[@snake_name])
             model._handle_errors(response_object["errors"])
-
 
   mark_dirty_or_clean: =>
     if !@id?
