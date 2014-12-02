@@ -9,7 +9,7 @@ class App.InvoiceListeners
       li.mark_dirty_or_clean()
 
     $("#line-item-table").on "click", ".delete", (evt) ->
-      li = new App.LineItem({id: $(@).data("id")})
+      li = new App.LineItem({id: $(@).data("id"), uuid: $(@).data("k-uuid")})
       li.destroy()
       $(@).parent().parent().remove()
 
