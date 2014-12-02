@@ -35,6 +35,10 @@ class App.LineItem extends App.Base
             model.assign_attributes_from_page()
             model._handle_errors(response_object["errors"])
 
+  # kindred override hook
+  after_destroy: (data, textStatus, xhr) ->
+    $("[data-error][data-k-uuid='" + @uuid + "']").parent().parent().remove()
+
   mark_dirty_or_clean: =>
     if !@id?
       $("[data-k-uuid='" + @uuid + "'][data-dirty]").html("<div data-dirty='' data-k-uuid='" + @uuid + "'><i class='fa fa-exclamation-triangle' style='color:red;'></i></div>")
