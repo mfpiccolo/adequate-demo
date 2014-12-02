@@ -32,6 +32,7 @@ class App.LineItem extends App.Base
           unless $.isEmptyObject(response_object["errors"])
             uuid = response_object[@snake_name].uuid
             model = new App[@class_name](response_object[@snake_name])
+            model.assign_attributes_from_page()
             model._handle_errors(response_object["errors"])
 
   mark_dirty_or_clean: =>
