@@ -1,5 +1,9 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+
+  # TODO abstract to kindred
+  after_action :setup_kindred
+
   helper_method :js
 
   # GET /invoices
@@ -25,7 +29,7 @@ class InvoicesController < ApplicationController
     # TODO check why you need this respond to block.  Protect from forgery fires
     # without it
     respond_to do |format|
-      format.html
+      format.html { js }
     end
   end
 
@@ -79,4 +83,12 @@ class InvoicesController < ApplicationController
     def invoice_params
       params.require(:invoice).permit(:date, :subtotal_cents, :shipping_cents, :tax_cents, :total_cents, :amount_due)
     end
+
+
+    def setup_kindred
+      view_context.content_for :kindred_script do
+        js(js_class: "App.Template", function: "set_templates", args: @kindred_hash, rendered: true)
+      end
+    end
+
 end
