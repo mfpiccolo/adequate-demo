@@ -11,7 +11,7 @@
 </div>
 
 <table id="line-item-table">
-  <tbody data-append="line-item">
+  <tbody data-target="line-item">
     <tr>
       <th>Description</th>
       <th>Quantity</th>
@@ -20,7 +20,7 @@
       <th></th>
     </tr>
 
-    <%= template(collection: @line_items) do %>
+    <%= template(collection: @line_items, target: "line-item", model: "line_item") do %>
       <tr>
         <td><%= text_field_tag_for(:line_item, :description) %></td>
         <td><%= text_field_tag_for(:line_item, :qty) %></td>
@@ -33,6 +33,9 @@
           data: { k_uuid: "", id: "" } %>
         </td>
       </tr>
+      <%= template(model: :some_other_thing, target: "line-item") do %>
+        <div>something</div>
+      <% end %>
       <tr>
         <td><%= error_for(:line_item, :description) %></td>
         <td><%= error_for(:line_item, :qty) %></td>
