@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141114183141) do
+ActiveRecord::Schema.define(version: 20141208093528) do
 
   create_table "invoices", force: true do |t|
     t.binary   "uuid",           limit: 16
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20141114183141) do
     t.integer  "total_cents"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "complete"
   end
 
 end
