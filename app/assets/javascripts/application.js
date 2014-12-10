@@ -16,5 +16,6 @@
 //= require models/line_item
 //= require controllers/invoices_controller
 //= require listeners/invoice_listeners
+//= require helpers/line_items_helper
 
 
