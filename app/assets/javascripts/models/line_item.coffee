@@ -1,7 +1,7 @@
 class App.LineItem extends App.Base
 
   @route = "/line_items"
-  @set_class_name_variables("LineItem")
+  @set_class_name("LineItem")
 
   # kindred override hook
   after_destroy: (data, textStatus, xhr) ->
