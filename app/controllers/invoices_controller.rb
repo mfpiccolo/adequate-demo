@@ -26,8 +26,6 @@ class InvoicesController < ApplicationController
   def edit
     @line_items = @invoice.line_items
 
-    # TODO check why you need this respond to block.  Protect from forgery fires
-    # without it
     respond_to do |format|
       format.html { js }
     end
@@ -84,7 +82,7 @@ class InvoicesController < ApplicationController
       params.require(:invoice).permit(:date, :subtotal_cents, :shipping_cents, :tax_cents, :total_cents, :amount_due)
     end
 
-
+    # TODO move this
     def setup_kindred
       view_context.content_for :kindred_script do
         js(js_class: "App.Template", function: "set_templates", args: @kindred_hash, rendered: true)
