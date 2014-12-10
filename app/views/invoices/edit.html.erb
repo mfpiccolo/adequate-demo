@@ -16,15 +16,17 @@
       <th>Description</th>
       <th>Quantity</th>
       <th>Price</th>
+      <th>Complete</th>
       <th></th>
       <th></th>
     </tr>
 
     <%= template(collection: @line_items, target: "line-item", model: "line_item") do %>
       <tr>
-        <td><%= text_field_tag_for(:line_item, :description) %></td>
-        <td><%= text_field_tag_for(:line_item, :qty) %></td>
-        <td><%= text_field_tag_for(:line_item, :price_cents) %></td>
+        <td><%= k_text_field_tag(:line_item, :description) %></td>
+        <td><%= k_text_field_tag(:line_item, :qty) %></td>
+        <td><%= k_text_field_tag(:line_item, :price_cents) %></td>
+        <td><%= k_check_box_tag(:line_item, :complete) %></td>
         <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 1x", style: "color:green" %></i></div></td>
         <td><%= link_to "Save", "#", class: "persist",
           data: { k_uuid: "", invoice_id: @invoice.id } %>
@@ -33,9 +35,6 @@
           data: { k_uuid: "", id: "" } %>
         </td>
       </tr>
-      <%= template(model: :some_other_thing, target: "line-item") do %>
-        <div>something</div>
-      <% end %>
       <tr>
         <td><%= error_for(:line_item, :description) %></td>
         <td><%= error_for(:line_item, :qty) %></td>
@@ -45,6 +44,7 @@
         <td></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
 
