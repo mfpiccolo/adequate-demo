@@ -17,6 +17,7 @@
       <th>Quantity</th>
       <th>Price</th>
       <th>Complete</th>
+      <th>Priority</th>
       <th></th>
       <th></th>
     </tr>
@@ -27,6 +28,9 @@
         <td><%= k_text_field_tag(:line_item, :qty) %></td>
         <td><%= k_text_field_tag(:line_item, :price_cents) %></td>
         <td><%= k_check_box_tag(:line_item, :complete) %></td>
+        <td><%= k_select_tag :line_item, "priority",
+                  options_for_select(["normal", "high", "urgent"]) %>
+        </td>
         <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 1x", style: "color:green" %></i></div></td>
         <td><%= link_to "Save", "#", class: "persist",
           data: { k_uuid: "", invoice_id: @invoice.id } %>
