@@ -21,7 +21,7 @@ class App.InvoiceListeners extends App.Listener
     $("#line-item-table").on "keyup.Listeners.LineItem.dirty_input", "input[data-k-uuid]", (evt) ->
       App.LineItemsHelper.mark_li_dirty_or_clean(@)
 
-    $("#line-item-table").on "change.Listeners.LineItem.dirty_checkbox", "input[data-k-uuid]", (evt) ->
+    $("#line-item-table").on "change.Listeners.LineItem.dirty_checkbox", "[data-k-uuid]", (evt) ->
       App.LineItemsHelper.mark_li_dirty_or_clean(@)
 
     $("#line-item-buttons").on "click.Listeners.LineItem.save_all", "#line-items-save-all", (evt) ->
