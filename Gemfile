@@ -36,7 +36,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'guard', '2.8.2'
+  gem 'guard', '2.10.2'
   gem 'guard-konacha'
   gem "capybara"
   gem 'capybara_minitest_spec'
@@ -47,7 +47,6 @@ group :development, :test do
 end
 
 group :test do
-  gem "minitest-spec-rails"
   gem "mocha"
   gem "factory_girl_rails"
   gem "database_cleaner", "~> 1.2.0"
