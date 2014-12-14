@@ -1,4 +1,4 @@
-class this.InvoicesController
+class @InvoicesController
   @edit: ->
     jQuery ->
       template_info = App.Template.template_info["line_item"]
