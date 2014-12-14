@@ -13,5 +13,5 @@
  *= require_tree .
  *= require_self
  *= require font-awesome
- *= require_tree ../../../vendor/assets/stylesheets/.
+ *= require ../../../vendor/assets/stylesheets/styles/monokai_sublime
  */

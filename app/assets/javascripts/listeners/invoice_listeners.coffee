@@ -30,3 +30,15 @@ class App.InvoiceListeners extends App.Listener
           {invoice_id: $(@).data("invoice-id")}
       })
 
+    $(".show-code").on "click.Listeners.LineItem.show_code", "#show-code-link", (evt) ->
+      $(".show-code").hide()
+      $(".hide-code").show()
+      $(".content").addClass("pane")
+      $(".content").show()
+
+    $(".hide-code").on "click.Listeners.LineItem.hide-code", "#hide-code-link", (evt) ->
+      $(".show-code").show()
+      $(".hide-code").hide()
+      $(".content").removeClass("pane")
+      $(".code").hide()
+

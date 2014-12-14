@@ -2,6 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+div.top-right {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  background-color: white;
+}
+
+.hide-code { display: none;}
+
+span {
+  font-size: 16px;
+}
+
+#wrapper, #wrapper > div {
+  -webkit-box-sixing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.invoice-form {
+  padding:15px;
+  width: 100%;
+  height: 100%;
+}
+
+.code {display: none;}
+
 #line-item-table  {
   border-collapse: separate;
   border-spacing: 5px;
@@ -18,15 +45,6 @@ td {
 
 #main-form {
   background-color:#f6f6f6;
-  padding-left:35px;
-  padding-right:35px;
-  padding-top:35px;
-  padding-bottom:50px;
-  width: 650px;
-  left: 50%;
-  position: absolute;
-  margin-top:30px;
-  margin-left: -360px;
 }
 
 input {
