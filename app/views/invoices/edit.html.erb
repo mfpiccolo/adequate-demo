@@ -1,57 +1,174 @@
-<h1>Editing invoice</h1>
+<div class="top-right show-code"><a id="show-code-link" href="#">Show Code</a></div>
+<div class="top-right hide-code"><a id="hide-code-link" href="#">Hide Code</a></div>
+<div id="wrapper">
+  <div id="main-form" class="content">
+    <div class="invoice-form">
+      <h1>INVOICE #<%= @invoice.id %></h1>
 
-<%= render 'form' %>
+      <%= render 'form' %>
 
-<div id="line-item-buttons">
-  <%= link_to 'New Line Item', "#", id: "new-line-item",
-    data: { adq_uuid: "", invoice_id: @invoice.id } %>
+      <div id="line-item-buttons">
+        <%= link_to 'New Line Item', "#", id: "new-line-item",
+          data: { adq_uuid: "", invoice_id: @invoice.id } %>
 
-  <%= link_to "Save All", "#", id: "line-items-save-all",
-    data: { adq_uuid: "", invoice_id: @invoice.id } %>
+        <%= link_to "Save All", "#", id: "line-items-save-all",
+          data: { adq_uuid: "", invoice_id: @invoice.id } %>
+      </div>
+
+      <table id="line-item-table">
+        <tbody data-target="line-item">
+          <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Complete</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+
+          <%= template(collection: @line_items, target: "line-item", model: "line_item") do %>
+            <tr class="li-row">
+              <td><%= k_text_field_tag(:line_item, :description) %></td>
+              <td><%= k_text_field_tag(:line_item, :qty) %></td>
+              <td><%= k_text_field_tag(:line_item, :price_cents) %></td>
+              <td><%= k_check_box_tag(:line_item, :complete, nil, nil, class: "css-checkbox") %></td>
+              <td><%= k_select_tag :line_item, "priority",
+                        options_for_select(["normal", "high", "urgent"]) %>
+              </td>
+              <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 2x", style: "color:#2ECC71" %></i></div></td>
+              <td><%= link_to "Save", "#", class: "persist",
+                data: { k_uuid: "", invoice_id: @invoice.id } %>
+              </td>
+              <td><%= link_to "Delete", "#", class: "delete",
+                data: { k_uuid: "", id: "" } %>
+              </td>
+            </tr>
+            <tr>
+              <td><%= error_for(:line_item, :description) %></td>
+              <td><%= error_for(:line_item, :qty) %></td>
+              <td><%= error_for(:line_item, :price_cents) %></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+
+      <%= link_to 'Show', @invoice %> |
+      <%= link_to 'Back', invoices_path %>
+    </div>
+  </div>
+  <div class="content code">
+    <h1>Model</h1>
+    <pre><code class="coffeescript">
+# app/assets/javascripts/models/line_item.coffee
+class App.LineItem extends App.Base
+
+  @route = "/line_items"
+  @set_class_name("LineItem")
+
+  # Override after destroy hook
+  after_destroy: (data, textStatus, xhr) ->
+    $("[data-error][data-k-uuid='" + @uuid + "']").parent().parent().remove()
+
+  # Replaces status icon
+  mark_dirty_or_clean: =>
+    if !@id?
+      $("[data-k-uuid='" + @uuid + "'][data-dirty]").html(
+        "&lt;div data-dirty='' data-k-uuid='" + @uuid + "'&gt
+          &lt;i class='fa fa-exclamation-triangle fa-2x' style='color:#D24D57;'&gt&lt;/i&gt
+      &lt;/div&gt"
+      )
+    else if @dirty_from_page()
+      $("[data-k-uuid='" + @uuid + "'][data-dirty]").html(
+        "&lt;div data-dirty='' data-k-uuid='" + @uuid + "'&gt
+          &lt;i class='fa fa-exclamation-triangle fa-2x' style='color:#F4D03F;'&gt&lt;/i&gt
+      &lt;/div&gt"
+      )
+    else
+      $("[data-k-uuid='" + @uuid + "'][data-dirty]").html(
+        "&lt;div data-dirty='' data-k-uuid='" + @uuid + "'&gt
+          &lt;i class='fa fa-check-circle-o fa-2x' style='color:#2ECC71;'&gt&lt;/i&gt
+      &lt;/div&gt"
+      )
+    </code></pre>
+  </div>
+  <div class="content code">
+    <h1>Listeners</h1>
+    <pre><code class="coffeescript">
+# app/assets/javascripts/listeners/invoice_listeners.coffee
+class App.InvoiceListeners extends App.Listener
+
+  # In console use `App.Listeners` to see all the listeners set on the page
+  @set: ->
+
+    # Save a single line item
+    $("#line-item-table").on "click.Listeners.LineItem.save", ".persist", (evt) ->
+      li = new App.LineItem({uuid: $(@).data("k-uuid")})
+      li.assign_attributes_from_page()
+      li.set("invoice_id", $(@).data("invoice-id"))
+      li.save()
+      li.mark_dirty_or_clean()
+
+    # Removes the line item and sends delete request
+    $("#line-item-table").on "click.Listeners.LineItem.delete", ".delete", (evt) ->
+      li = new App.LineItem({id: $(@).data("id"), uuid: $(@).data("k-uuid")})
+      li.destroy()
+      $(@).parent().parent().remove()
+
+    # Adds new line item
+    $("#line-item-buttons").on "click.Listeners.LineItem.new_li", "#new-line-item", (evt) ->
+      li = new App.LineItem($(@).data())
+      li.append_to_page()
+      li.mark_dirty_or_clean()
+
+    # Sets the dirty or clean flag on keyup
+    $("#line-item-table").on "keyup.Listeners.LineItem.dirty_input", "input[data-k-uuid]", (evt) ->
+      App.LineItemsHelper.mark_li_dirty_or_clean(@)
+
+    # Sets the dirty or clean flag on select or checkbox change
+    $("#line-item-table").on "change.Listeners.LineItem.dirty_checkbox", "[data-k-uuid]", (evt) ->
+      App.LineItemsHelper.mark_li_dirty_or_clean(@)
+
+    # Submits a save all request for all the line items
+    $("#line-item-buttons").on "click.Listeners.LineItem.save_all", "#line-items-save-all", (evt) ->
+      App.LineItem.save_all({
+        add_data_to_each: =>
+          {invoice_id: $(@).data("invoice-id")}
+      })
+    </code></pre>
+  </div>
+  <div class="content code">
+  <pre><code class="html">
+  &lt;%= template(collection: @line_items, target: "line-item", model: "line_item") do %&gt
+    &lt;tr class="li-row"&gt
+      &lt;td&gt&lt;%= k_text_field_tag(:line_item, :description) %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= k_text_field_tag(:line_item, :qty) %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= k_text_field_tag(:line_item, :price_cents) %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= k_check_box_tag(:line_item, :complete, nil, nil, class: "css-checkbox") %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= k_select_tag :line_item, "priority",
+                options_for_select(["normal", "high", "urgent"]) %&gt
+      &lt;/td&gt
+      &lt;td&gt&lt;div data-dirty data-k-uuid=""&gt&lt;%= fa_icon "check-circle-o 2x", style: "color:#2ECC71" %&gt&lt;/i&gt&lt;/div&gt&lt;/td&gt
+      &lt;td&gt&lt;%= link_to "Save", "#", class: "persist",
+        data: { k_uuid: "", invoice_id: @invoice.id } %&gt
+      &lt;/td&gt
+      &lt;td&gt&lt;%= link_to "Delete", "#", class: "delete",
+        data: { k_uuid: "", id: "" } %&gt
+      &lt;/td&gt
+    &lt;/tr&gt
+    &lt;tr&gt
+      &lt;td&gt&lt;%= error_for(:line_item, :description) %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= error_for(:line_item, :qty) %&gt&lt;/td&gt
+      &lt;td&gt&lt;%= error_for(:line_item, :price_cents) %&gt&lt;/td&gt
+      &lt;td&gt&lt;/td&gt
+      &lt;td&gt&lt;/td&gt
+      &lt;td&gt&lt;/td&gt
+    &lt;/tr&gt
+  &lt;% end %&gt
+  </code></pre>
+  </div>
 </div>
-
-<table id="line-item-table">
-  <tbody data-target="line-item">
-    <tr>
-      <th>Description</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Complete</th>
-      <th>Priority</th>
-      <th></th>
-      <th></th>
-    </tr>
-
-    <%= template(collection: @line_items, target: "line-item", model: "line_item") do %>
-      <tr>
-        <td><%= k_text_field_tag(:line_item, :description) %></td>
-        <td><%= k_text_field_tag(:line_item, :qty) %></td>
-        <td><%= k_text_field_tag(:line_item, :price_cents) %></td>
-        <td><%= k_check_box_tag(:line_item, :complete) %></td>
-        <td><%= k_select_tag :line_item, "priority",
-                  options_for_select(["normal", "high", "urgent"]) %>
-        </td>
-        <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 1x", style: "color:green" %></i></div></td>
-        <td><%= link_to "Save", "#", class: "persist",
-          data: { k_uuid: "", invoice_id: @invoice.id } %>
-        </td>
-        <td><%= link_to "Delete", "#", class: "delete",
-          data: { k_uuid: "", id: "" } %>
-        </td>
-      </tr>
-      <tr>
-        <td><%= error_for(:line_item, :description) %></td>
-        <td><%= error_for(:line_item, :qty) %></td>
-        <td><%= error_for(:line_item, :price_cents) %></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    <% end %>
-
-  </tbody>
-</table>
-
-<%= link_to 'Show', @invoice %> |
-<%= link_to 'Back', invoices_path %>
-

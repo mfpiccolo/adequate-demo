@@ -17,5 +17,12 @@
 //= require controllers/invoices_controller
 //= require listeners/invoice_listeners
 //= require helpers/line_items_helper
+//= require highlight.pack
+
+$(document).ready(function() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
 
 
