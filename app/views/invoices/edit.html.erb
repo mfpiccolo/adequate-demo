@@ -9,14 +9,14 @@
 
       <div id="line-item-buttons">
         <%= link_to 'New Line Item', "#", id: "new-line-item",
-          data: { adq_uuid: "", invoice_id: @invoice.id } %>
+          data: { "target-uuid" => @invoice.uuid, invoice_id: @invoice.id } %>
 
         <%= link_to "Save All", "#", id: "line-items-save-all",
           data: { adq_uuid: "", invoice_id: @invoice.id } %>
       </div>
 
       <table id="line-item-table">
-        <tbody data-target="line-item">
+        <tbody <%= target @invoice %>>
           <tr>
             <th>Description</th>
             <th>Quantity</th>
@@ -27,7 +27,7 @@
             <th></th>
           </tr>
 
-          <%= template(collection: @line_items, target: "line-item", model: "line_item") do %>
+          <%= template(collection: @line_items, target_uuid: @invoice.uuid, model: "line_item") do %>
             <tr class="li-row">
               <td><%= k_text_field_tag(:line_item, :description) %></td>
               <td><%= k_text_field_tag(:line_item, :qty) %></td>
@@ -38,10 +38,10 @@
               </td>
               <td><div data-dirty data-k-uuid=""><%= fa_icon "check-circle-o 2x", style: "color:#2ECC71" %></i></div></td>
               <td><%= link_to "Save", "#", class: "persist",
-                data: { k_uuid: "", invoice_id: @invoice.id } %>
+                data: { k_uuid: "{{line_item.uuid}}", invoice_id: @invoice.id } %>
               </td>
               <td><%= link_to "Delete", "#", class: "delete",
-                data: { k_uuid: "", id: "" } %>
+                data: { k_uuid: "{{line_item.uuid}}", id: "{{line_item.id}}" } %>
               </td>
             </tr>
             <tr>
