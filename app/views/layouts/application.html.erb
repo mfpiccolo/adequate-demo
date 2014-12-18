@@ -13,6 +13,9 @@
 <!-- TODO append this stuff via js on load -->
 <%= kindred_model_data %>
 <%= content_for :kindred_script %>
+<script type="text/javascript">
+  App.BaseUrl = '<%= "#{request.protocol}#{request.host_with_port}" %>';
+</script>
 
 </body>
 </html>
