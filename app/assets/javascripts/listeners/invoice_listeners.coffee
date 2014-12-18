@@ -14,7 +14,8 @@ class App.InvoiceListeners extends App.Listener
       $(@).parent().parent().remove()
 
     $("#line-item-buttons").on "click.Listeners.LineItem.new_li", "#new-line-item", (evt) ->
-      li = new App.LineItem($(@).data())
+      newobj = App.Util.snake_case_camel_keys $(@).data()
+      li = new App.LineItem(newobj)
       li.append_to_page()
       li.mark_dirty_or_clean()
 
