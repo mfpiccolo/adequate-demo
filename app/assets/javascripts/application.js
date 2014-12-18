@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require kindred
 //= require models/line_item
+//= require models/invoice
 //= require controllers/invoices_controller
 //= require listeners/invoice_listeners
 //= require helpers/line_items_helper

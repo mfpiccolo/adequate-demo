@@ -14,3 +14,16 @@ class App.LineItem extends App.Base
       $("[data-k-uuid='" + @uuid + "'][data-dirty]").html("<div data-dirty='' data-k-uuid='" + @uuid + "'><i class='fa fa-exclamation-triangle fa-2x' style='color:#F4D03F;'></i></div>")
     else
       $("[data-k-uuid='" + @uuid + "'][data-dirty]").html("<div data-dirty='' data-k-uuid='" + @uuid + "'><i class='fa fa-check-circle-o fa-2x' style='color:#2ECC71;'></i></div>")
+
+  @all: ->
+
+    $.ajax
+      type: "get"
+      url: @route + ".json"
+      dataType: "json"
+      success: (data, textStatus, xhr) =>
+        console.log "success"
+        console.log data
+      error: (xhr) =>
+        console.log "error"
+        console.log xhr

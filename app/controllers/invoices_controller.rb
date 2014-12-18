@@ -3,7 +3,6 @@ class InvoicesController < ApplicationController
 
   # TODO abstract to kindred
   after_action :setup_kindred
-
   helper_method :js
 
   # GET /invoices
