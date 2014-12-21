@@ -1,10 +1,10 @@
 class App.InvoiceListeners extends App.Listener
 
   @set: ->
-    $("#line-item-table").on "click.Listeners.LineItem.save", ".persist", (evt) ->
-      li = new App.LineItem({uuid: $(@).data("k-uuid")})
+    $("#line-item-table").on "click.Listeners.LineItem.save", ".persist", (evt) =>
+      console.log @params $(evt.toElement).data()
+      li = new App.LineItem(@params $(evt.toElement).data())
       li.assign_attributes_from_page()
-      li.set("invoice_id", $(@).data("invoice-id"))
       li.save()
       li.mark_dirty_or_clean()
 
@@ -13,9 +13,8 @@ class App.InvoiceListeners extends App.Listener
       li.destroy()
       $(@).parent().parent().remove()
 
-    $("#line-item-buttons").on "click.Listeners.LineItem.new_li", "#new-line-item", (evt) ->
-      newobj = App.Util.snake_case_camel_keys $(@).data()
-      li = new App.LineItem(newobj)
+    $("#line-item-buttons").on "click.Listeners.LineItem.new_li", "#new-line-item", (evt) =>
+      li = new App.LineItem(@params $(evt.toElement).data())
       li.append_to_page()
       li.mark_dirty_or_clean()
 
