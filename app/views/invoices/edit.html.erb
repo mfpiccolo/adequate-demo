@@ -29,9 +29,9 @@
 
           <%= template(collection: @line_items, target_uuid: @invoice.uuid, model: "line_item") do %>
             <tr class="li-row">
-              <td><%= k_text_field_tag(:line_item, :description) %></td>
-              <td><%= k_text_field_tag(:line_item, :qty) %></td>
-              <td><%= k_text_field_tag(:line_item, :price_cents) %></td>
+              <td><%= k_text_field_tag(:line_item, :description) %><%= error_for(:line_item, :description) %></td>
+              <td><%= k_text_field_tag(:line_item, :qty) %><%= error_for(:line_item, :qty) %></td>
+              <td><%= k_text_field_tag(:line_item, :price_cents) %><%= error_for(:line_item, :price_cents) %></td>
               <td><%= k_check_box_tag(:line_item, :complete, nil, nil, class: "css-checkbox") %></td>
               <td><%= k_select_tag :line_item, "priority",
                         options_for_select(["normal", "high", "urgent"]) %>
@@ -43,14 +43,6 @@
               <td><%= link_to "Delete", "#", class: "delete",
                 data: { k_uuid: "{{line_item.uuid}}", id: "{{line_item.id}}" } %>
               </td>
-            </tr>
-            <tr>
-              <td><%= error_for(:line_item, :description) %></td>
-              <td><%= error_for(:line_item, :qty) %></td>
-              <td><%= error_for(:line_item, :price_cents) %></td>
-              <td></td>
-              <td></td>
-              <td></td>
             </tr>
           <% end %>
 
